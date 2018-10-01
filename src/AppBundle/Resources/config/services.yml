@@ -1,0 +1,14 @@
+services:
+    app.admin.stuff:
+        class: AppBundle\Admin\StuffAdmin
+        arguments: [~, AppBundle\Entity\Stuff, AppBundle:StuffAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Stuff }
+        public: true
+
+    app.admin.department:
+        class: AppBundle\Admin\DepartmentAdmin
+        arguments: [~, AppBundle\Entity\Department, AppBundle:DepartmentAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Department }
+        public: true
