@@ -1,77 +1,76 @@
-Symfony Standard Edition
+Это реализация тестового задания на вакансию Backend-разработчика
 ========================
 
-**WARNING**: This distribution does not support Symfony 4. See the
-[Installing & Setting up the Symfony Framework][15] page to find a replacement
-that fits you best.
+# Задача:
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony
-application that you can use as the skeleton for your new applications.
+Реализовать веб-приложение позволяющее управлять отделами и сотрудниками предприятия, а также просматривать их связи на “сетке”.
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
+Приложение состоит из **трех разделов**:
 
-What's inside?
---------------
+1.  Сетка (главная страница);
+2.  Отделы;
+3.  Сотрудники.
 
-The Symfony Standard Edition is configured with the following defaults:
+**Разделы “Отделы” и “Сотрудники”** представляют собой интерфейсы для управления соответствующими данными и **состоят из трех видимых страниц**:
 
-  * An AppBundle you can use to start coding;
+1.  Список (в виде таблицы), содержащий данные об элементах (указаны ниже) и кнопки “Редактировать” и “Удалить”;
+2.  Форма добавления нового отдела/сотрудника;
+3.  Форма изменения существующего отдела/сотрудника.
 
-  * Twig as the only configured template engine;
+**Форма редактирования/добавления сотрудника** содержит следующие поля:
 
-  * Doctrine ORM/DBAL;
+1.  Имя (обязательное);
+2.  Фамилия (обязательное);
+3.  Отчество;
+4.  Пол;
+5.  Заработная плата (целое число);
+6.  Отделы (обязательное, множественный выбор с помощью checkbox или multiple select).
 
-  * Swiftmailer;
+**Список сотрудников** содержит следующие данные:
 
-  * Annotations enabled for everything.
+1.  Имя;
+2.  Фамилия;
+3.  Отчество;
+4.  Пол;
+5.  Заработная плата;
+6.  Названия отделов в которых работает сотрудник (через запятую).
 
-It comes pre-configured with the following bundles:
+**Форма редактирования/добавления отдела** содержит следующие поля:
 
-  * **FrameworkBundle** - The core Symfony framework bundle
+1.  Название отдела (обязательное).
 
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
+**Список отделов** содержит следующие данные:
 
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
+1.  Название отдела;
+2.  Количество сотрудников отдела;
+3.  Максимальная заработная плата среди сотрудников отдела.
 
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
+**Связи между моделями:**
 
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
+1.  Сотрудник может работать как в одном, так и в нескольких разделах одновременно.
+2.  Нельзя создать сотрудника не указав ему хотя бы один отдел.
+3.  Нельзя удалить отдел в котором есть сотрудники.
 
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
+Все **ошибки, возникающие при редактировании/создании/удалении** элементов**,** должны быть показаны пользователю. Плюсом (необязательно) будет, если для этого не потребуется перезагрузка страницы (будет использован AJAX/JSON).
 
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
+**Раздел “Сетка”** представляет собой таблицу, содержащую **связи между работниками и их отделами**.
 
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
+Колонками в данной таблице являются отделы, а строками - сотрудники.
 
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
+Ячейка находящаяся на пересечении работника и отдела в котором он работает должна содержать соответствующую отметку, остальные колонки можно оставить пустыми.
 
-  * [**SensioGeneratorBundle**][13] (in dev env) - Adds code generation
-    capabilities
+**Пример сетки:**
+|  | Отдел закупок | Отдел продаж | PR-отдел |
+|--|--|--|--|
+| Иван Йода |  | ✓ |  |
+| Петр Вейдер | ✓ |  |  |
+| Ольга Кеноби |  | ✓ | ✓ |
 
-  * [**WebServerBundle**][14] (in dev env) - Adds commands for running applications
-    using the PHP built-in web server
 
-  * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
-    integration
+При выполнении задания, желательно **минимизировать количество SQL-запросов** к СУБД. Для получения данных стараться использовать **возможности языка SQL** в реализации MySQL.
 
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
+**Внешний вид и верстка** приложения на ваше усмотрение (не критичны).
 
-Enjoy!
+Для сокращения временных затрат можно, например, использовать [http://getbootstrap.com/](http://getbootstrap.com/)
 
-[1]:  https://symfony.com/doc/3.4/setup.html
-[6]:  https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  https://symfony.com/doc/3.4/doctrine.html
-[8]:  https://symfony.com/doc/3.4/templating.html
-[9]:  https://symfony.com/doc/3.4/security.html
-[10]: https://symfony.com/doc/3.4/email.html
-[11]: https://symfony.com/doc/3.4/logging.html
-[13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
-[14]: https://symfony.com/doc/current/setup/built_in_web_server.html
-[15]: https://symfony.com/doc/current/setup.html
+**Результат работы** желательно залить в сеть (чтобы можно было легко посмотреть его в действии), также необходимо выслать архив с исходным кодом приложения и его базой данных.
