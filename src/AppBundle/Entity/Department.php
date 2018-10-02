@@ -180,6 +180,32 @@ class Department
     }
 
     /**
+     * Get total stuffs
+     *
+     * @return int
+     */
+    public function getTotalStuff()
+    {
+        return $this->getStuff()->count();
+    }
+
+    /**
+     * Get max stuff salary
+     *
+     * @return int
+     */
+    public function getMaxStuffSalary()
+    {
+        $max = 0;
+
+        $this->getStuff()->map(function (Stuff $stuff) use (&$max) {
+            $max = max($stuff->getSalary() ?: 0, $max);
+        });
+
+        return $max;
+    }
+
+    /**
      * @ORM\PreUpdate()
      */
     public function preUpdate()

@@ -24,6 +24,8 @@ class DepartmentAdmin extends AbstractAdmin
             ->add('name')
             ->add('createdAt')
             ->add('updatedAt')
+            ->add('totalStuff')
+            ->add('maxStuffSalary')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
