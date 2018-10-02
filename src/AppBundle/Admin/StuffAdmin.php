@@ -2,6 +2,7 @@
 
 namespace AppBundle\Admin;
 
+use AppBundle\Entity\Stuff;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -13,9 +14,6 @@ class StuffAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('firstName')
             ->add('lastName')
             ->add('middleName')
@@ -28,13 +26,13 @@ class StuffAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('firstName')
             ->add('lastName')
             ->add('middleName')
             ->add('sex')
             ->add('salary')
+            ->add('createdAt')
+            ->add('updatedAt')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -48,14 +46,12 @@ class StuffAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('id')
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('firstName')
             ->add('lastName')
             ->add('middleName')
-            ->add('sex')
+            ->add('sex', 'choice', ['choices' => Stuff::getSexChoices()])
             ->add('salary')
+            ->add('department')
         ;
     }
 
@@ -63,13 +59,14 @@ class StuffAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('firstName')
             ->add('lastName')
             ->add('middleName')
             ->add('sex')
             ->add('salary')
+            ->add('department')
+            ->add('createdAt')
+            ->add('updatedAt')
         ;
     }
 }

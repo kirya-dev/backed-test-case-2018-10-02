@@ -13,9 +13,6 @@ class DepartmentAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('name')
         ;
     }
@@ -24,9 +21,9 @@ class DepartmentAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
+            ->add('name')
             ->add('createdAt')
             ->add('updatedAt')
-            ->add('name')
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -40,9 +37,6 @@ class DepartmentAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('id')
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('name')
         ;
     }
@@ -51,9 +45,9 @@ class DepartmentAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
+            ->add('name')
             ->add('createdAt')
             ->add('updatedAt')
-            ->add('name')
         ;
     }
 }

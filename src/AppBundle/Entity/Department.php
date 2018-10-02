@@ -2,13 +2,15 @@
 
 namespace AppBundle\Entity;
 
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Department
  *
  * @ORM\Table(name="department")
- * @ORM\Entity
+ * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks()
  */
 class Department
 {
@@ -55,6 +57,8 @@ class Department
      */
     public function __construct()
     {
+        $this->createdAt = new \DateTime;
+        $this->updatedAt = new \DateTime;
         $this->stuff = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -144,11 +148,11 @@ class Department
     /**
      * Add stuff
      *
-     * @param \AppBundle\Entity\Stuff $stuff
+     * @param Stuff $stuff
      *
      * @return Department
      */
-    public function addStuff(\AppBundle\Entity\Stuff $stuff)
+    public function addStuff(Stuff $stuff)
     {
         $this->stuff[] = $stuff;
 
@@ -158,9 +162,9 @@ class Department
     /**
      * Remove stuff
      *
-     * @param \AppBundle\Entity\Stuff $stuff
+     * @param Stuff $stuff
      */
-    public function removeStuff(\AppBundle\Entity\Stuff $stuff)
+    public function removeStuff(Stuff $stuff)
     {
         $this->stuff->removeElement($stuff);
     }
@@ -173,5 +177,29 @@ class Department
     public function getStuff()
     {
         return $this->stuff;
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime;
+    }
+
+    /**
+     * @ORM\PreRemove()
+     */
+    public function preRemove()
+    {
+        if ($this->getStuff()->count() > 0) {
+            throw new \RuntimeException('Cannot delete this department while has stuffs.');
+        }
+    }
+
+
+    public function __toString()
+    {
+        return '# ' . $this->getId() . ' ' . $this->getName();
     }
 }

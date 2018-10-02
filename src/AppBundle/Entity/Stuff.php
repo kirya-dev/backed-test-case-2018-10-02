@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Stuff
  *
  * @ORM\Table(name="stuff")
- * @ORM\Entity
+ * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks()
  */
 class Stuff
 {
@@ -61,6 +63,8 @@ class Stuff
      * @var string
      *
      * @ORM\Column(name="sex", type="string", length=1, nullable=true)
+     *
+     * @Assert\Choice(callback="getSexChoices")
      */
     private $sex;
 
@@ -83,6 +87,8 @@ class Stuff
      *     @ORM\JoinColumn(name="department_id", referencedColumnName="id")
      *   }
      * )
+     *
+     * @Assert\Count(min=1)
      */
     private $department;
 
@@ -91,6 +97,8 @@ class Stuff
      */
     public function __construct()
     {
+        $this->createdAt = new \DateTime;
+        $this->updatedAt = new \DateTime;
         $this->department = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -276,11 +284,11 @@ class Stuff
     /**
      * Add department
      *
-     * @param \AppBundle\Entity\Department $department
+     * @param Department $department
      *
      * @return Stuff
      */
-    public function addDepartment(\AppBundle\Entity\Department $department)
+    public function addDepartment(Department $department)
     {
         $this->department[] = $department;
 
@@ -290,9 +298,9 @@ class Stuff
     /**
      * Remove department
      *
-     * @param \AppBundle\Entity\Department $department
+     * @param Department $department
      */
-    public function removeDepartment(\AppBundle\Entity\Department $department)
+    public function removeDepartment(Department $department)
     {
         $this->department->removeElement($department);
     }
@@ -305,5 +313,24 @@ class Stuff
     public function getDepartment()
     {
         return $this->department;
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime;
+    }
+
+
+    public function __toString()
+    {
+        return '# ' . $this->getId() . ' ' . $this->getLastName();
+    }
+
+    public static function getSexChoices()
+    {
+        return ['Non select' => null, 'Male' => 'M', 'Female' => 'F'];
     }
 }
